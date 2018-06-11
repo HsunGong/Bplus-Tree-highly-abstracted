@@ -690,7 +690,7 @@ int main() {
 			}
 			else if (cmp(cmd, "exit")) {
 				cout << fixed<< setprecision(6)  << "BYE" << '\n';
-				//break;
+				break;
 			}
 			else {
 				puts("Wrong Command");

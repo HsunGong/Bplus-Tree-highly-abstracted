@@ -390,8 +390,8 @@ public:
 database<int, user> user_db("sbfsy", "realsb");
 using iter_user = database<int, user>::iterator;
 
-database<mstring, train, cmp1> train_db("sbfsy2", "dsabfsy2");
-using iter_train = database<mstring, train, cmp1>::iterator;
+database<mstring, train, cmp1, 3> train_db("sbfsy2", "dsabfsy2");
+using iter_train = database<mstring, train, cmp1, 3>::iterator;
 
 database<train_order, char, cmp2> train_order_db("sb3", "dsb3");
 using iter_train_order = database<train_order, char, cmp2>::iterator;

@@ -23,7 +23,7 @@ class node_full : public errors { };
 // if use template<char const * file>have to define file like:
 // the whole program:: extern char const s[] = "filename"
 
-#define bits 1024*12 // bits with one block
+#define bits 1024*4 // bits with one block
 //#define fileNameSize 100
 
 inline constexpr int32_t half(const int32_t &pos) noexcept {// with ceil()
@@ -32,15 +32,15 @@ inline constexpr int32_t half(const int32_t &pos) noexcept {// with ceil()
 	return ((pos % 2 == 0 )? pos / 2 : pos / 2 + 1);
 }
 
-template<class Key, class V>//figure out can fugure idx and datanode
+template<class Key, class V, int k = 1>//figure out can fugure idx and datanode
 inline constexpr int32_t figure_size() noexcept {
 	// int32_t size1 = sizeof(int32_t) * 4;
 	// int32_t left = bits - size1;
-	return (bits - sizeof(int32_t) * 4) / (sizeof(Key) + sizeof(V));
+	return (bits * k - sizeof(int32_t) * 4) / (sizeof(Key) + sizeof(V));
 }
 
 
-template<class Key, class V, class Compare = std::less<Key>> 
+template<class Key, class V, class Compare = std::less<Key>, int32_t _K = 1> 
 class database {
 private:
 
@@ -66,6 +66,7 @@ private:
 	const int32_t idxSize;
 	const int32_t hdataSize;
 	const int32_t hidxSize;
+	const int32_t Bits_cnt = _K;
 
 	// it is about nodeBlock with many small (key,v)s
 	// real last pos = _last_data;
@@ -156,8 +157,8 @@ private:
 
 		int32_t left = 0, right = 0;
 
-		Key key[figure_size<V, Key>()];
-		V data[figure_size<V, Key>()];
+		Key key[figure_size<V, Key, _K>()];
+		V data[figure_size<V, Key, _K>()];
 
 	public:
 
@@ -350,7 +351,7 @@ private:
 
 	void read(int32_t pos, dataNode &x) {
 		if (pos == 0) throw not_exist();
-		data.seekg(pos*bits);
+		data.seekg(pos*bits*Bits_cnt);
 		data.read(reinterpret_cast<char*>(&x), sizeof(dataNode));
 	}
 	void read(int32_t pos, idxNode &x) {
@@ -359,7 +360,7 @@ private:
 		idx.read(reinterpret_cast<char*>(&x), sizeof(idxNode));
 	}
 	void write(dataNode &x) {
-		data.seekp(x.pos*bits);
+		data.seekp(x.pos*bits*Bits_cnt);
 		data.write(reinterpret_cast<char*>(&x), sizeof(dataNode));
 	}
 	void write(idxNode &x) {
@@ -751,7 +752,7 @@ public:
 	//	means root.pos = 1, read root : seekg(1 * bits, ios::beg);
 
     database(const char *a, const char *b): idxfile(a), datafile(b),
-		idxSize(figure_size<Key, int32_t>()), dataSize(figure_size<Key, V>())
+		idxSize(figure_size<Key, int32_t>()), dataSize(figure_size<Key, V, _K>())
 		, hdataSize(half(dataSize)), hidxSize(half(idxSize)){
 
         ifstream in(idxfile);//read
