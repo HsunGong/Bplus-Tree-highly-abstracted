@@ -4,10 +4,10 @@
 #include <cstdio>
 #include <iomanip>
 //just like the clothes
-#define xlsize 63
-#define lsize 43//large
-#define msize 23//middle
-#define ssize 13//small
+#define xlsize 40
+#define lsize 25//large
+#define msize 20//middle
+#define ssize 12//small
 #define xssize 8
 
 #define xxxsize 600
@@ -277,8 +277,9 @@ public:
 class cmp3 {
 public:
 	bool operator()(const date_train &x, const date_train &y) {
-		if (strcmp(x.date, y.date) < 0) return 1;
-		else if(strcmp(x.date, y.date) > 0) return 0;
+		int tmp(strcmp(x.date, y.date));
+		if (tmp < 0) return 1;
+		else if(tmp > 0) return 0;
 		else if (strcmp(x.train_id.a, y.train_id.a) < 0) return 1;
 		return 0;
 	}
@@ -371,14 +372,16 @@ public:
 class cmp4 {//less: user--->date--->catalog
 public:
 	bool operator()(const user_ticket &a, const user_ticket &b) {
+		int tmp1(strcmp(a.date, b.date));
+		int tmp2(strcmp(a.loc1, b.loc1));
 		if (a.userid < b.userid) return 1;
 		else if(a.userid > b.userid) return 0;
 		else if (a.catalog < b.catalog) return 1;
 		else if (a.catalog > b.catalog) return 0;
-		else if (strcmp(a.date, b.date) < 0) return 1;
-		else if (strcmp(a.date, b.date) > 0) return 0;
-		else if (strcmp(a.loc1, b.loc1) < 0) return 1;
-		else if (strcmp(a.loc1, b.loc1) > 0) return 0;
+		else if (tmp1 < 0) return 1;
+		else if (tmp1 > 0) return 0;
+		else if (tmp2 < 0) return 1;
+		else if (tmp2 > 0) return 0;
 		else if (strcmp(a.loc2, b.loc2) < 0) return 1;
 		return 0;
 	}
@@ -387,19 +390,20 @@ public:
 
 
 // class user_id{};-----> int
-database<int, user> user_db("sbfsy", "realsb");
+database<int, user> user_db("user1", "user2");
 using iter_user = database<int, user>::iterator;
 
-database<mstring, train, cmp1, 3> train_db("sbfsy2", "dsabfsy2");
-using iter_train = database<mstring, train, cmp1, 3>::iterator;
+const int zz = 2;
+database<mstring, train, cmp1, zz> train_db("train1", "train2");
+using iter_train = database<mstring, train, cmp1, zz>::iterator;
 
-database<train_order, char, cmp2> train_order_db("sb3", "dsb3");
+database<train_order, char, cmp2> train_order_db("train3", "train4");
 using iter_train_order = database<train_order, char, cmp2>::iterator;
 
-database<date_train, left_ticket, cmp3> left_ticket_db("sb4", "dsb4");
-using iter_left_ticket = database<date_train, left_ticket, cmp3>::iterator;
+database<date_train, left_ticket, cmp3, zz> left_ticket_db("train5", "train6");
+using iter_left_ticket = database<date_train, left_ticket, cmp3, zz>::iterator;
 
-database<user_ticket, ticket, cmp4> ticket_db("sb5", "dsb5");
+database<user_ticket, ticket, cmp4> ticket_db("train7", "train8");
 using iter_ticket = database<user_ticket, ticket, cmp4>::iterator;
 
 
