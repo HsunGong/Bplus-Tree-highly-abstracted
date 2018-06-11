@@ -1,1 +1,1 @@
-g++ main.cpp -o code -std=c++17
+g++ main1.cpp -o code -std=c++17
