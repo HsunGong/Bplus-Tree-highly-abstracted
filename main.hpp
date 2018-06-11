@@ -400,8 +400,8 @@ using iter_train = database<mstring, train, cmp1, zz>::iterator;
 database<train_order, char, cmp2> train_order_db("train3", "train4");
 using iter_train_order = database<train_order, char, cmp2>::iterator;
 
-database<date_train, left_ticket, cmp3, zz> left_ticket_db("train5", "train6");
-using iter_left_ticket = database<date_train, left_ticket, cmp3, zz>::iterator;
+database<date_train, left_ticket, cmp3> left_ticket_db("train5", "train6");
+using iter_left_ticket = database<date_train, left_ticket, cmp3>::iterator;
 
 database<user_ticket, ticket, cmp4> ticket_db("train7", "train8");
 using iter_ticket = database<user_ticket, ticket, cmp4>::iterator;
