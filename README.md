@@ -1,5 +1,5 @@
 # **TicketSystem[^title]**--imitate 12306
-
+============================================
 [TOC]
 
 ## Catalog
@@ -60,32 +60,90 @@ iterator modify(iterator &iter, const V &val);
     - root 儿子超过一个节点,进入pinsert（私有成员函数）
     - 如果root分裂，新建newroot
     * pinsert 函数：
+        ```graphLR
+        pinsert--> type == 0;
+        pinsert--> type == 1;
+        type == 0 --> pinsert;
+        type == 1 --> add data;
+        adddata-->no split-->end;
+        adddata-->split-->addidx;
+        addidx-->nosplit-->end;
+        addidx-->split-->return pinsert-->addidx;
+        ```
+    - adddata
+    - addidx
+4. 删除函数：
+    - 根节点只有一个儿子，特判
+    - perase 函数：
+        ```graphLR
+        perase--> type == 0;
+        perase --> type == 1;
+        type == 0 --> perase;
+        type == 1 --> deldata;
+        deldata-->no merge, no adopt-->end;
+        deldata-->adopt --> return left/right, which key changed --> change key --> end;
+        deldata--> merge --> return left/right, which key changed -->return perase -->delidx;
+        ```
+    - 参数传入位置，当前函数只读取当前节点。传入兄弟节点位置，备用
+5. 修改函数：
+    - 只能修改Value
+6. 迭代器：
+    - 只实现普通的迭代器，不实现const_iterator
+    - 重载++, --, !=, ==, *, ->
+    - write函数，用于使用迭代器修改数值之后，写入到文件中
+    - &getkey() 用于得到key
+7. 返回头尾迭代器，判定空函数，返回容量函数，清库函数。
+
 ### User Interface with bash
 2. Detail class
+    - 全局变量：inner_id, 返回最后一个id(可以用user_db库size取代)
+    - 暂时变量用全局变量，read函数覆盖
+    - class mstring; class cmp;//定长char数组
+    - 其他类
+    > * user_db : class user_id; class user;
+    > * train_db : class train_id; class train; 
+    > * train_order_db : class train_order; ..;
+    > * left_ticket_db : class date_train; class left_ticket;
+    > * ticekt_db : class user_ticekt; class ticket;
 
 3. Detail functions
-
-
-- [x]  
-- [ ] 
-> * dd
-* 
-+ 
-
+Tags: 具体内容与说明文档相似，此处不予赘述。
 ```c++
-@Auther
-
-
+regist();
+login();
+query_profile();
+modify_profile();
+modify_privilege();
+query_ticket();[^catalog]
+_query_ticket();
+query_transfer();
+buy_ticket();
+query_order();
+refund_ticket();
 ```
 
-
-## Conclusion
-
-
+## Conclusion/Advanced
+1. 可能加强的地方：
+    * user 用线性表实现存储信息
+    * user email映射
+    * 使用系统命令，建立文件夹保存信息
+    * b+树优化
+        - 多索引目录对应同一个信息文件
+        - 删除，插入函数
+        - const_iterator实现
+2. 反思：
+    * 代码能力不足，写循环时，把i --> j 弄反
+    * 大纲先打好有利于后面的书写
+    * 熬夜不一定效果会更好，关键看什么时候效率更高。
 
 ---
 
-Auther [@Xun Gong @Linqi Chen @Fangyuan Zhang][1]
+Auther [@Xun Gong][1][@Linqi Chen][2][@Fangyuan Zhang][3]
 Time 2018.06.03
 
 [^title]: 2018 Data Structure Big Work 2 for ACM2017 SJTU
+[^catalog]: For each train has only one catalog, but when query, may have many
+[1]:
+[2]:
+[3]:
+[4]:
