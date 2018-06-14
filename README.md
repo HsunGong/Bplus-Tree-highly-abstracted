@@ -1,5 +1,7 @@
-# **TicketSystem[^title]**--imitate 12306
-============================================
+ **TicketSystem[^title]**
+=====
+                        --imitate 12306
+-----
 [TOC]
 
 ## Catalog
@@ -11,16 +13,13 @@
 
 ## Outline
 1. 工作分配
-| mokuai | renyuan |
-|        | Linqi Chen |
-|        | Fangyuan Zhang |
-|        | Xun Gong |
+| 工作划分  | renyuan |
+|    11    | Linqi Chen |
+|    22    | Fangyuan Zhang |
+|    33    | Xun Gong |
 
 ## Front End
 
-Tags: 
-
-~~ wrong code ~~
 ## After End
 ### Outline
 
@@ -60,7 +59,7 @@ iterator modify(iterator &iter, const V &val);
     - root 儿子超过一个节点,进入pinsert（私有成员函数）
     - 如果root分裂，新建newroot
     * pinsert 函数：
-        ```graphLR
+        ```sequence
         pinsert--> type == 0;
         pinsert--> type == 1;
         type == 0 --> pinsert;
@@ -75,7 +74,7 @@ iterator modify(iterator &iter, const V &val);
 4. 删除函数：
     - 根节点只有一个儿子，特判
     - perase 函数：
-        ```graphLR
+        ```sequence
         perase--> type == 0;
         perase --> type == 1;
         type == 0 --> perase;
@@ -109,17 +108,22 @@ iterator modify(iterator &iter, const V &val);
 3. Detail functions
 Tags: 具体内容与说明文档相似，此处不予赘述。
 ```c++
-regist();
-login();
-query_profile();
-modify_profile();
-modify_privilege();
-query_ticket();[^catalog]
-_query_ticket();
-query_transfer();
-buy_ticket();
-query_order();
-refund_ticket();
+int regist();
+bool login();
+bool query_profile();
+bool modify_profile();
+bool modify_privilege();
+bool query_ticket();[^catalog]
+bool _query_ticket();
+bool query_transfer();
+bool buy_ticket();
+bool query_order();
+bool refund_ticket();
+bool clean();
+bool add_train();
+bool delete_train();
+bool modify_train();
+bool query_train();
 ```
 
 ## Conclusion/Advanced
@@ -143,7 +147,7 @@ Time 2018.06.03
 
 [^title]: 2018 Data Structure Big Work 2 for ACM2017 SJTU
 [^catalog]: For each train has only one catalog, but when query, may have many
-[1]:
+[1]: https://github.com/Insightcd <gongxun@sjtu.edu.cn>
 [2]:
 [3]:
 [4]:
