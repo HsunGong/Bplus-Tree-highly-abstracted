@@ -9,6 +9,13 @@
         "xlocnum": "cpp",
         "xloctime": "cpp",
         "system_error": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "iostream": "cpp",
+        "xiosbase": "cpp",
+        "initializer_list": "cpp",
+        "map": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp"
     }
 }

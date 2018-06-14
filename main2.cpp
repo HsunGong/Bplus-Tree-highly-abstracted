@@ -1,5 +1,72 @@
-#include "main1.hpp"
-#include "user.hpp"
+#include "main2.hpp"
+
+int get_privilege(int &check_id) {
+	iter_user it = user_db.find(check_id);
+	if (it.getkey() == check_id)  return it->privilege;
+	return 0;
+}
+
+int regist() {
+	if (inner_id == 2017) _privilege = 2;
+	else _privilege = 1;
+
+	++inner_id;
+	user tmp(_name, _password, _email, _phone, _privilege);//id bucun
+	user_db.insert(inner_id, tmp);
+	email_db.insert(mstring(_email), inner_id);
+	return inner_id;
+}
+
+bool login() {
+	iter_user it = user_db.find(_id1);
+	if (it.getkey() == _id1 && cmp(it->password, _password))   return 1;
+	return 0;
+}
+bool query_email() {
+	cin >> _email;
+	iter_email it = email_db.find(mstring(_email));
+	if (cmp(it.getkey().a, _email))   return 1;
+	return 0;
+}
+
+bool query_profile() {
+	iter_user it = user_db.find(_id1);
+	if (it.getkey() == _id1) {
+		cout << fixed<< setprecision(6) <<it->name<<" "<<it->email<<" "<<it->phone<<" "<<it->privilege<<"\n";
+		// printf("%s %s %s %d\n", it->name, it->email, it->phone, it->privilege);
+		return 1;
+	}
+	cout << fixed<< setprecision(6)  << "0\n";
+	return 0;
+}
+
+bool modify_profile() {
+	iter_user it = user_db.find(_id1);
+	// cout << fixed<< setprecision(6) <<it->name<<" "<<it->password<<" "<<it->email<<" "<<it->phone<<" "<<it->privilege<<"\n";
+	if (it.getkey() == _id1) {
+		user tmp(_name, _password, _email, _phone, it->privilege);//id bucun
+		user_db.modify(it, tmp);
+		return 1;
+	}
+	return 0;
+}
+
+bool modify_privilege() {
+	if (get_privilege(_id1) == 2) {
+		iter_user it = user_db.find(_id2);
+		if (it.getkey() == _id2) {
+			if(it->privilege == 1){
+				it->privilege = _privilege;
+				it.write();
+			}
+			else if(it->privilege == 2 && _privilege == 1)
+				return 0;
+			return 1;
+		}
+	}
+	return 0;
+}
+
 
 bool add_train() {
 	
@@ -547,14 +614,14 @@ bool clean() {
 int main() {
 	ios::sync_with_stdio(0);
 
-	// fstream io("user");
-	// if (!io) {
-	// 	ofstream out("user");
-	// 	out << inner_id;
-	// 	out.close();
-	// 	io.open("user");
-	// }
-	// io >> inner_id;
+	fstream io("user");
+	if (!io) {
+		ofstream out("user");
+		out << inner_id;
+		out.close();
+		io.open("user");
+	}
+	io >> inner_id;
 
 	char cmd[msize];
 	while (cin >> cmd) {
@@ -629,13 +696,13 @@ int main() {
 			}
 			else if (cmp(cmd, "exit")) {
 				cout << fixed<< setprecision(6)  << "BYE" << '\n';
-				//break;
+				break;
 			}
 			else {
 				puts("Wrong Command");
 			}
 	}
-	//ofstream ou("user");
-	//ou << inner_id;
+	ofstream ou("user");
+	ou << inner_id;
 	return 0;
 }

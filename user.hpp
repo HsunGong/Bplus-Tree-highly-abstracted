@@ -84,6 +84,7 @@ public:
 
 	    ++inner_id;
 	    write(inner_id, x);
+       // cout << "add  " <<inner_id << endl;
 	    return inner_id;
     }
     void get(int &userid, user &x){
@@ -133,10 +134,11 @@ bool query_profile() {
     try{
         user_db.get(_id1, _user);
     }catch(not_exist x){
+        //cout << "cant get!!!!\n";
         cout << "0\n";
         return 0;
     }
-	cout << fixed<< setprecision(6) << _user.name << " " << _user.email << " " << _user.phone << " " << _user.privilege << "\n";
+	cout << fixed << setprecision(6) << _user.name << " " << _user.email << " " << _user.phone << " " << _user.privilege << "\n";
 	return 1;
 }
 
@@ -144,7 +146,7 @@ bool modify_profile() {
     try{
         user_db.get(_id1, _user);
     }catch(not_exist x){
-        cout << "0\n";
+        //cout << "0\n";
         return 0;
     }
 	user tmp(_name, _password, _email, _phone, _user.privilege);//id bucun
@@ -153,7 +155,7 @@ bool modify_profile() {
 }
 
 bool modify_privilege() {
-    cout << "modify: " ;
+    //cout << "modify: " ;
 	try{
         return user_db.modify_privilege(_id1, _id2, _privilege);
     }catch(...){

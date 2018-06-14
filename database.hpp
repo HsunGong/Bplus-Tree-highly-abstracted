@@ -882,8 +882,7 @@ public:
 		return iterator(this, leaf, 0);
 	}
 
-	iterator begin()
-	{
+	iterator begin(){
 		if (empty())
 			return end();
 
@@ -891,20 +890,17 @@ public:
 		return iterator(this, cur, 0);
 	}
 
-	iterator end()
-	{
+	iterator end(){
 		return iterator(this, tail, 0);
 	}
 
 	// while split node, new node always inherit the larger part
 	// while merge node, old (the one left)node always inherit the smaller part
-	iterator insert(const Key &k, const V &val)
-	{
+	iterator insert(const Key &k, const V &val){
 		pair<Key, int32_t> p = pinsert(k, val, 1);
 
 		//split a new node with root level
-		if (p.second)
-		{				   //return newnode pos
+		if (p.second){				   //return newnode pos
 			read(1, root); // may change the values
 			idxNode _newroot(1, 2, 0);
 			++_last_idx; // which may be the pos of old root
@@ -923,14 +919,12 @@ public:
 	}
 	iterator insert(const std::pair<Key, V> &value) { return insert(value.first, value.second); }
 
-	iterator erase(const Key &k)
-	{
+	iterator erase(const Key &k){
 		if (empty())
 			throw not_exist();
 
 		read(1, root);
-		if (root.size == 1)
-		{ //special
+		if (root.size == 1){ //special
 			--allsize;
 			dataNode tmp;
 			read(root.son[0], tmp);
@@ -957,8 +951,7 @@ public:
 		return iterator(this, _tmpPosinTree, _tmpPosinNode);
 	}
 
-	iterator erase(const Key &k, const V &val)
-	{
+	iterator erase(const Key &k, const V &val){
 		iterator tmp = find(k);
 		if (*tmp != val)
 			throw not_exist();
@@ -966,8 +959,7 @@ public:
 		return erase(k);
 	}
 	iterator erase(const std::pair<Key, V> &value) { return erase(value.first, value.second); }
-	iterator erase(const iterator &iter)
-	{
+	iterator erase(const iterator &iter){
 		if (iter.pos == 0)
 			throw out_of_bound();
 		return erase(iter.now.key[iter.cur]);
@@ -975,8 +967,7 @@ public:
 
 	//can only change the value
 	// will writen in file
-	iterator modify(const Key &k, const V &val)
-	{
+	iterator modify(const Key &k, const V &val){
 		iterator iter = find(k);
 		//if(!cmp(k, iter.getkey()) && !cmp(iter.getkey(), k))
 		*(iter) = val;
@@ -984,8 +975,7 @@ public:
 		return iter;
 	}
 	iterator modify(const std::pair<Key, V> &value) { return modify(value.first, value.second); }
-	iterator modify(iterator &iter, const V &val)
-	{
+	iterator modify(iterator &iter, const V &val){
 		if (iter.now.pos == 0)
 			throw not_exist();
 		*(iter) = val;
