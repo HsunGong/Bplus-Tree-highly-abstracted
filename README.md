@@ -12,11 +12,11 @@
 
 ## Division of Labour
 
-| 工作划分  | renyuan |
+| 工作划分  | 人员 |
 | -
-|    11    | Linqi Chen |
-|    22    | Fangyuan Zhang |
-|    33    | Xun Gong |
+|    后端，前端    | Linqi Chen |
+|    后端，前端    | Fangyuan Zhang |
+|    后端，文档    | Xun Gong |
 
 ## Front End
 
@@ -63,42 +63,34 @@ iterator modify(iterator &iter, const V &val);
     - root 儿子超过一个节点,进入pinsert（私有成员函数）
     - 如果root分裂，新建newroot
     - pinsert 函数：
-
-```flow
-st=>start: insert
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-e=>end
-st->op->cond
-cond(yes)->e
-cond(no)->op
+```sequence
+pinsert--> pinsert: type == 0
+pinsert-> type: type == 1
+type --> pinsert: type == 0
+type -> addData: type == 1
+addData-->end: no split
+adddata->addidx: split
+addidx-->end: nosplit
+addidx->pinsert: split
 ```
-
-        ```sequence
-        pinsert--> type == 0;
-        pinsert--> type == 1;
-        type == 0 --> pinsert;
-        type == 1 --> add data;
-        adddata-->no split-->end;
-        adddata-->split-->addidx;
-        addidx-->nosplit-->end;
-        addidx-->split-->return pinsert-->addidx;
-        ```
 
     - adddata
     - addidx
 4. 删除函数：
     - 根节点只有一个儿子，特判
     - perase 函数：
-        ```sequence
-        perase--> type == 0;
-        perase --> type == 1;
-        type == 0 --> perase;
-        type == 1 --> deldata;
-        deldata-->no merge, no adopt-->end;
-        deldata-->adopt --> return left/right, which key changed --> change key --> end;
-        deldata--> merge --> return left/right, which key changed -->return perase -->delidx;
-        ```
+``` sequence
+perase--> perase: type == 0
+perase -> type: type == 1
+type --> perase: type == 0
+type -> deldata: type == 1
+deldata-->end: no merge, no adopt
+deldata-> end: adopt, left/right, which key changed 
+deldata--> perase: merge, left/right, which key changed
+perase-->delidx: merge
+delidx-->perase: like deldata
+delidx->end: like deldata
+```
     - 参数传入位置，当前函数只读取当前节点。传入兄弟节点位置，备用
 5. 修改函数：
     - 只能修改Value
@@ -165,7 +157,6 @@ bool query_train();
 
 Auther [@Xun Gong]( https://github.com/Insightcd )[@Linqi Chen](http://404)[@Fangyuan Zhang](http://404)
 Time 2018.06.03
-
 
 
 [^title]: 2018 Data Structure Big Work 2 for [ACM]2017 SJTU
