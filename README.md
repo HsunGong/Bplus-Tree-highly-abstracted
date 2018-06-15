@@ -20,7 +20,53 @@
 
 ## Front End
 
+### outline
+1. 框架使用
+- 服务器端使用flask，大量功能使用JavaScript实现，前后端连接使用boost库进行封装，
 
+- "/" 为主域名，为消费者页面
+- "/main" 为管理界面路由前缀，
+- "/auth" 为管理界面用户路由
+
+- 管理界面使用了一些bootstrap进行风格优化
+- 消费界面未使用框架进行风格优化，由陈林淇自行设计风格
+- 密码未用明文储存，进行了hash加密，保证服务器端用户密码安全
+- 进行了CSRF保护（跨站请求伪造）
+- 注册界面使用了邮箱验证，登录界面加入验证
+- 从环境变量获取配置变量，提高安全系数
+- 在蓝本中实现程序功能，提高了程序灵活度
+- （程序工厂函数方便单元测试，时间有限，未进行单元测试
+- 消费页面 实现多种排序功能，添加了两种地点选择器
+
+|-train
+    |-app/
+        |-templates/
+        |-static/
+        |-main/
+        |-cus/
+        |-auth/
+        |-db/
+        |-__init__.py
+        |-email.py
+        |-models.py
+    |-tests/
+    |-venv/
+    |-requirements.txt
+    |-config.py
+    |-manage.py
+    |-database.so
+- db是后端数据库代码
+- templates文件夹中是网页的html代码
+- static文件夹中是js、css代码和icon图标
+- main文件夹是管理界面的实现
+- cus文件夹是消费界面的实现
+- auth文件夹是管理界面用户的实现
+- venv文件夹是虚拟环境
+- tests文件夹是单元测试(未添加)
+- config.py是配置文件
+- manage.py构造了启动脚本
+- database.so为后端
+- pip install -r requirments.txt 安装所有库
 
 
 ## After End
