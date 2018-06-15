@@ -558,6 +558,27 @@ bool refund_ticket() {
 	return 1;
 }
 
+bool query_all_order() {
+	int sum = 0;
+	ticket tt[xxxsize];
+	mstring x;
+	_user_ticket.read('\0', _id1, "\0", x, "\0", "\0");
+	iter_ticket it = ticket_db.find(_user_ticket);
+	while (1) {
+		if(it == ticket_db.end()) break;
+		if(it.getkey().userid != _id1) break;
+		++sum;
+		tt[sum].read(*it);
+		++it;
+	}
+	cout << fixed<< setprecision(6)  << sum << '\n';
+	while (sum) {
+		tt[sum].print();
+		sum--;
+	}
+	return 1;
+}
+
 bool query_order() {
 	int sum = 0;
 	ticket tt[xxxsize];
@@ -589,7 +610,6 @@ bool query_order() {
 	// cout << fixed<< setprecision(6) <<_catalog<<endl;
 	return 1;
 }
-
 bool clean() {
 	try {
 		user_db.clear();

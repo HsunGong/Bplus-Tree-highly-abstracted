@@ -1,24 +1,27 @@
  **TicketSystem[^title]**
 =====
-                        --imitate 12306
------
+###                        ----imitate 12306
 [TOC]
 
-## Catalog
-0. Outline
+<!-- ## Catalog
+0. Division of Labour
 1. Front End
 2. After End
 3. Conclusion
-4. CopyRight
+4. CopyRight @ -->
 
-## Outline
-1. 工作分配
+## Division of Labour
+
 | 工作划分  | renyuan |
+| -
 |    11    | Linqi Chen |
 |    22    | Fangyuan Zhang |
 |    33    | Xun Gong |
 
 ## Front End
+
+
+
 
 ## After End
 ### Outline
@@ -30,6 +33,7 @@
 
 
 ### DataBase with B+ Tree 
+
 ```C++
 //接口函数及原型
 template<class Key, class V, class Compare = std::less<Key>, int32_t _K = 1>class database;
@@ -58,7 +62,18 @@ iterator modify(iterator &iter, const V &val);
     - root 未存满一个节点 特判
     - root 儿子超过一个节点,进入pinsert（私有成员函数）
     - 如果root分裂，新建newroot
-    * pinsert 函数：
+    - pinsert 函数：
+
+```flow
+st=>start: insert
+op=>operation: Your Operation
+cond=>condition: Yes or No?
+e=>end
+st->op->cond
+cond(yes)->e
+cond(no)->op
+```
+
         ```sequence
         pinsert--> type == 0;
         pinsert--> type == 1;
@@ -69,6 +84,7 @@ iterator modify(iterator &iter, const V &val);
         addidx-->nosplit-->end;
         addidx-->split-->return pinsert-->addidx;
         ```
+
     - adddata
     - addidx
 4. 删除函数：
@@ -95,6 +111,7 @@ iterator modify(iterator &iter, const V &val);
 
 ### User Interface with bash
 2. Detail class
+
     - 全局变量：inner_id, 返回最后一个id(可以用user_db库size取代)
     - 暂时变量用全局变量，read函数覆盖
     - class mstring; class cmp;//定长char数组
@@ -106,7 +123,9 @@ iterator modify(iterator &iter, const V &val);
     > * ticekt_db : class user_ticekt; class ticket;
 
 3. Detail functions
+
 Tags: 具体内容与说明文档相似，此处不予赘述。
+
 ```c++
 int regist();
 bool login();
@@ -127,6 +146,7 @@ bool query_train();
 ```
 
 ## Conclusion/Advanced
+
 1. 可能加强的地方：
     * user 用线性表实现存储信息
     * user email映射
@@ -135,6 +155,7 @@ bool query_train();
         - 多索引目录对应同一个信息文件
         - 删除，插入函数
         - const_iterator实现
+
 2. 反思：
     * 代码能力不足，写循环时，把i --> j 弄反
     * 大纲先打好有利于后面的书写
@@ -142,12 +163,15 @@ bool query_train();
 
 ---
 
-Auther [@Xun Gong][1][@Linqi Chen][2][@Fangyuan Zhang][3]
+Auther [@Xun Gong]( https://github.com/Insightcd )[@Linqi Chen](http://404)[@Fangyuan Zhang](http://404)
 Time 2018.06.03
 
-[^title]: 2018 Data Structure Big Work 2 for ACM2017 SJTU
+
+
+[^title]: 2018 Data Structure Big Work 2 for [ACM]2017 SJTU
+
 [^catalog]: For each train has only one catalog, but when query, may have many
+
 [1]: https://github.com/Insightcd <gongxun@sjtu.edu.cn>
-[2]:
-[3]:
-[4]:
+
+[acm]: http://www.acm.sjtu.edu.cn "ACM"

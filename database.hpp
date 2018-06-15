@@ -234,7 +234,7 @@ private:
 
 		for (int32_t j = x.size; j > i; --j) {
 			x.key[j] = x.key[j - 1];
-			x.data[j] = x.data[j - 1];
+			x.data[j] = x.data[j - 1];/*  */
 		}
 		x.key[i] = k;
 		x.data[i] = val;
@@ -920,8 +920,7 @@ public:
 	iterator insert(const std::pair<Key, V> &value) { return insert(value.first, value.second); }
 
 	iterator erase(const Key &k){
-		if (empty())
-			throw not_exist();
+		if (empty())	throw not_exist();
 
 		read(1, root);
 		if (root.size == 1){ //special
@@ -930,10 +929,8 @@ public:
 			read(root.son[0], tmp);
 			int32_t i;
 			for (i = 0; i < tmp.size; ++i)
-				if (!cmp(k, tmp.key[i]) && !cmp(tmp.key[i], k))
-					break;
-			if (i == tmp.size)
-				throw not_exist();
+				if (!cmp(k, tmp.key[i]) && !cmp(tmp.key[i], k))	break;
+			if (i == tmp.size)	throw not_exist();
 			_tmpPosinNode = del(tmp, i);
 			write(tmp);
 			return iterator(this, tmp, _tmpPosinNode);
@@ -942,8 +939,7 @@ public:
 		pair<Key, int32_t> p = perase(k, 0, 1, 1, Key());
 
 		read(1, root);
-		if (root.size == 1 && root.type == 0)
-		{
+		if (root.size == 1 && root.type == 0){
 			read(root.son[0], root);
 			root.pos = 1;
 			write(root);
